@@ -20,6 +20,7 @@ float main_x;
 float y_accel;
 float main_y;
 float main_z;
+bool mode_for
 
 #include "I2Cdev.h"
 
@@ -94,6 +95,7 @@ void dmpDataReady() {
 
 void setup() {
     // join I2C bus (I2Cdev library doesn't do this automatically)
+    pinMode(3,INPUT);
     #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
         Wire.begin();
         Wire.setClock(400000); // 400kHz I2C clock. Comment this line if having compilation difficulties
@@ -254,7 +256,8 @@ void loop() {
             mpu.dmpGetGravity(&gravity, &q);
             mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
             counter+=1;
-           
+            mode_for = digitalRead(3)
+            
             
             if (counter > 1150) {
               //Serial.println("Callibration commencing ...");
@@ -289,7 +292,9 @@ void loop() {
               Serial.print(",");
               Serial.print(main_y);
               Serial.print(",");
-              Serial.println(main_z);
+              Serial.print(main_z);
+              Serial.print(",");
+              Serial.println(mode_for);
               delay(400);
           #endif
             }
